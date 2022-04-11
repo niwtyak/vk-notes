@@ -32,7 +32,7 @@ object Notes {
 
     fun delete(noteId: Int): Boolean {
         return if (notes.removeIf { it.id == noteId }) {
-            comments.filter { it.noteId == noteId }.forEach { it.deleted = true }
+            comments.removeIf { it.noteId == noteId }
             true
         } else throw NoteNotFoundException(noteId.toString())
     }
