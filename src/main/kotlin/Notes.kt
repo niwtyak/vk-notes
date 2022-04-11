@@ -23,8 +23,11 @@ object Notes {
     }
 
     fun createComment(noteId: Int, replyTo: Int? = null, message: String): Int {
-        if (notes.find { it.id == noteId } != null) {
+        val note = notes.find { it.id == noteId }
+
+        if (note != null) {
             comments.add(Comment(++commentId, 123, noteId, LocalDateTime.now(), message, replyTo))
+            notes[notes.indexOf(note)] = note.copy(comments = note.comments + 1)
             return commentId
         } else throw NoteNotFoundException(noteId.toString())
     }
@@ -32,8 +35,9 @@ object Notes {
 
     fun delete(noteId: Int): Boolean {
         return if (notes.removeIf { it.id == noteId }) {
-            comments.removeIf { it.noteId == noteId }
-            true
+            if (notes.find { it.id == noteId }?.comments != 0 && comments.removeIf { it.noteId == noteId }) {
+                true
+            } else throw CommentNotFoundException("Indefinite id")
         } else throw NoteNotFoundException(noteId.toString())
     }
 

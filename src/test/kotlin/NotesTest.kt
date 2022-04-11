@@ -27,6 +27,7 @@ class NotesTest {
     @Test
     fun delete() {
         val noteId = Notes.add("Note #1", "text")
+        Notes.createComment(noteId, message = "message")
         assertTrue(Notes.delete(noteId))
     }
 
@@ -133,7 +134,6 @@ class NotesTest {
             Triple(id2, "Title 2", "text 2"),
             Triple(id1, "Title 1", "text 1")
         )
-        println(notes)
 
         var success = true
         for ((i, note) in notes.withIndex()) {

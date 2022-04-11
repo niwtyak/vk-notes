@@ -6,7 +6,7 @@ data class Note(
     val text: String,
     val date: LocalDateTime,
     val comments: Int,
-    val readComments: Int,
+    val readComments: Int = 0,
     val view_url: String,
     val privacyView: String,
     val privacyComment: String,
